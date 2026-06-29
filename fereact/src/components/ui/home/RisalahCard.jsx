@@ -26,7 +26,7 @@ export default function RisalahCard({
         {items.map((item, index) => (
           <div
             key={index}
-            className="rounded-2xl border border-stone-200 bg-white/50 p-5"
+            className="rounded-2xl border border-stone-200 bg-white p-5"
           >
             <div className="flex gap-6">
               {/* Waktu */}

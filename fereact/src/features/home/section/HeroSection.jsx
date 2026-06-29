@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from '../../../components/ui/Button';
-import HeroCard from '../components/HeroCard';
-import GridBackground from '../components/GridBg';
+import HeroCard from '../../../components/ui/home/HeroCard';
+import GridBackground from '../../../components/ui/home/GridBg';
 
 export default function HeroSection() {
   return (
@@ -71,7 +71,7 @@ export default function HeroSection() {
             title="Bimbingan TA Dosen"
             date="12 Mar 2026"
             content="Revisi BAB II: Tambahkan diagram alir data enkripsi otomatis dan arsitektur sistem cerdas berbasis AI."
-            className="-rotate-6 -translate-y-3/4 absolute z-10 brightness-20 opacity-70 scale-95 hidden sm:block"
+            className="-rotate-6 -translate-y-3/4 absolute z-10 brightness-20 opacity-70 scale-95 hidden sm:block pointer-events-none"
             />
 
             {/* Card 2 (Utama) */}
@@ -87,7 +87,7 @@ export default function HeroSection() {
             title="Praktikum IoT"
             date="24 Feb 2026"
             content="AI berhasil menyusun draft laporan berdasarkan rekaman suara praktikum secara otomatis."
-            className="-rotate-2 translate-y-3/4 absolute z-10 brightness-20 opacity-70 scale-90 hidden lg:block"
+            className="-rotate-2 translate-y-3/4 absolute z-10 brightness-20 opacity-70 scale-90 hidden lg:block pointer-events-none"
             />
 
         </div>

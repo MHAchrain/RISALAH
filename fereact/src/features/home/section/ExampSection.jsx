@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "../../../components/ui/Button";
-import RisalahCard from "../components/RisalahCard";
+import RisalahCard from "../../../components/ui/home/RisalahCard";
 
 export default function ExampleSection() {
   return (

@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function RisalahCard({
+export default function HeroCard({
   title = "Sesi Praktikum IoT",
   date = "24 Feb 2026",
   content = "AI mengotomatisasi penyusunan draf laporan berdasarkan rekaman audio praktikum secara real-time.",
@@ -23,7 +23,7 @@ export default function RisalahCard({
     >
       {/* Header */}
       <div className="border-b border-stone-200 pb-3">
-        <span className="text-[10px] uppercase tracking-[0.2em] text-tertiary-base font-label">
+        <span className="text-sm uppercase tracking-[0.2em] text-tertiary-base font-label">
           {date}
         </span>
 

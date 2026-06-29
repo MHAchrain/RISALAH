@@ -1,14 +1,16 @@
 import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
 import LandingPage from '../features/home/pages/LandingPage';
 import MainPage from '../features/dashboard/pages/MainPage';
+import AuthPage from '../features/auth/pages/AuthPage';
 
 export default function AppRoutes() {
 
     return (
         <Routes>
             <Route path="/" element={<LandingPage />} />
+            <Route path="/auth" element={<AuthPage />} />
             <Route path='/dashboard' element={<MainPage/>} />
 
             {/* <Route path="/auth" element={

@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
 
+const steps = [
+    "Mengunggah audio...",
+    "Mentranskripsi percakapan...",
+    "Menyusun ringkasan...",
+    "Mendeteksi tugas & action item...",
+    "Menyiapkan dokumen...",
+];
+
 export default function Processing({ onFinish }) {
-
-    const steps = [
-        "Mengunggah audio...",
-        "Mentranskripsi percakapan...",
-        "Menyusun ringkasan...",
-        "Mendeteksi tugas & action item...",
-        "Menyiapkan dokumen..."
-    ];
-
     const [currentStep, setCurrentStep] = useState(0);
 
     useEffect(() => {

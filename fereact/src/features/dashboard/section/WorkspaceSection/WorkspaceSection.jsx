@@ -1,155 +1,120 @@
-import React, { useState } from "react";
-import { Search, Plus } from "lucide-react";
-import Button from "../../../../components/ui/Button";
-import WorkspaceCard from "../../../../components/ui/dashboard/WorkspaceCard";
-import StatCard from "../../../../components/ui/dashboard/StatCard";
+import { useEffect, useMemo, useState } from "react";
 
-export default function WorkspaceSection() {
+import WorkspaceDetail from "./WorkspaceDetail";
+import WorkspaceList from "./WorkspaceList";
+
+const initialWorkspaces = [
+    {
+        id: "proposal-kicaukicau",
+        title: "Proposal KicauKicau",
+        type: "Tugas Akhir · 4 anggota",
+        task: "8/10",
+        progress: 75,
+        sessions: [
+            {
+                title: "Review Proposal Bab 2",
+                date: "24 Jun 2026",
+                duration: "00:42:18",
+                status: "Selesai",
+                summary:
+                    "Pembahasan fokus pada perbaikan landasan teori, batasan masalah, dan pembagian revisi antar anggota.",
+            },
+        ],
+    },
+    {
+        id: "praktikum-basis-data",
+        title: "Praktikum Basis Data",
+        type: "Praktikum · 6 anggota",
+        task: "5/8",
+        progress: 62,
+        sessions: [
+            {
+                title: "Pembagian Modul Normalisasi",
+                date: "22 Jun 2026",
+                duration: "00:31:44",
+                status: "Selesai",
+                summary:
+                    "Tim membagi pengerjaan laporan normalisasi, ERD, dan validasi query SQL.",
+            },
+        ],
+    },
+    {
+        id: "riset-ux-akademik",
+        title: "Riset UX Akademik",
+        type: "Proyek Kelompok · 3 anggota",
+        task: "11/12",
+        progress: 88,
+        sessions: [
+            {
+                title: "Sintesis Wawancara Mahasiswa",
+                date: "20 Jun 2026",
+                duration: "00:28:06",
+                status: "Selesai",
+                summary:
+                    "Hasil wawancara dipetakan menjadi pain point utama dan peluang perbaikan alur layanan akademik.",
+            },
+        ],
+    },
+    {
+        id: "bimbingan-ta",
+        title: "Bimbingan TA",
+        type: "Bimbingan · 2 anggota",
+        task: "3/6",
+        progress: 50,
+        sessions: [],
+    },
+];
+
+export default function WorkspaceSection({
+    view,
+    onOpenDetail,
+    onBackToList,
+}) {
     const [activeTab, setActiveTab] = useState("ringkasan");
 
-    const workspaces = [
-        {
-            title: "Proposal KicauKicau",
-            subtitle: "Tugas Akhir · 4 anggota",
-            progress: 75,
-        },
-        {
-            title: "Praktikum Basis Data",
-            subtitle: "Praktikum · 6 anggota",
-            progress: 62,
-        },
-        {
-            title: "Riset UX Akademik",
-            subtitle: "Proyek Kelompok · 3 anggota",
-            progress: 88,
-        },
-    ];
+    useEffect(() => {
+        if (view?.latestSession) {
+            setActiveTab("sesi");
+        }
+    }, [view?.latestSession]);
 
-    const tabs = [
-        { id: "ringkasan", label: "Ringkasan" },
-        { id: "sesi", label: "Sesi" },
-        { id: "tugas", label: "Tugas" },
-        { id: "anggota", label: "Anggota" },
-    ];
+    const workspaces = useMemo(() => {
+        if (!view?.latestSession || !view?.selectedWorkspaceId) {
+            return initialWorkspaces;
+        }
+
+        return initialWorkspaces.map((workspace) => {
+            if (workspace.id !== view.selectedWorkspaceId) {
+                return workspace;
+            }
+
+            return {
+                ...workspace,
+                sessions: [view.latestSession, ...workspace.sessions],
+            };
+        });
+    }, [view?.latestSession, view?.selectedWorkspaceId]);
+
+    const selectedWorkspace =
+        workspaces.find((workspace) => workspace.id === view?.selectedWorkspaceId) ??
+        workspaces[0];
+
+    if (view?.mode === "detail") {
+        return (
+            <WorkspaceDetail
+                activeTab={activeTab}
+                latestSession={view.latestSession}
+                onBack={onBackToList}
+                onChangeTab={setActiveTab}
+                workspace={selectedWorkspace}
+            />
+        );
+    }
 
     return (
-        <section>
-
-            {/* Heading */}
-            <span className="font-label text-lg uppercase tracking-[0.35em] text-tertiary-base">
-                Workspace Saya
-            </span>
-
-            <h1 className="mt-4 font-headline text-6xl font-bold leading-[1.05] text-primary-900 max-w-5xl">
-                Kelola semua proyek dan ruang dokumentasi.
-            </h1>
-
-            <p className="mt-6 max-w-3xl text-xl text-stone-700">
-                Search, buat workspace baru, dan masuk ke detail workspace dengan tab Ringkasan, Sesi, Tugas, Anggota.
-            </p>
-
-            {/* Search */}
-            <div className="mt-10 flex gap-4">
-
-                <div className="flex flex-1 items-center gap-3 rounded-full border border-stone-300 bg-white px-6 py-4">
-                    <Search size={20} className="text-stone-500" />
-
-                    <input
-                        placeholder="Cari workspace..."
-                        className="flex-1 bg-transparent outline-none"
-                    />
-                </div>
-
-                <Button className="px-8" variant="dash">
-                    <Plus size={18}/>
-                    Buat Workspace Baru
-                </Button>
-
-            </div>
-
-            {/* Workspace Cards */}
-            <div className="mt-8 grid grid-cols-3 gap-5">
-                {workspaces.map((item) => (
-                    <WorkspaceCard key={item.title} {...item} />
-                ))}
-            </div>
-
-            {/* Detail */}
-            <div className="mt-10 rounded-4xl border border-stone-300 bg-neutral-50 p-6 shadow-[8px_10px_0px_rgba(0,0,0,0.12)]">
-
-                {/* Tabs */}
-                <div className="flex gap-3">
-
-                    {tabs.map((tab) => (
-                        <button
-                            key={tab.id}
-                            onClick={() => setActiveTab(tab.id)}
-                            className={`rounded-full px-6 py-3 text-sm font-semibold transition
-                                ${
-                                    activeTab === tab.id
-                                        ? "bg-primary-base text-white"
-                                        : "bg-neutral-200 hover:bg-neutral-300"
-                                }`}
-                        >
-                            {tab.label}
-                        </button>
-                    ))}
-
-                </div>
-
-                <hr className="my-6 border-stone-300"/>
-
-                {/* Isi Tab */}
-                {activeTab === "ringkasan" && (
-                    <div className="grid grid-cols-4 gap-5">
-
-                        <StatCard
-                            value="75%"
-                            label="Progress"
-                            valueClassName="text-tertiary-base"
-                        />
-
-                        <StatCard
-                            value="8/10"
-                            label="Task selesai"
-                            valueClassName="text-tertiary-base"
-                        />
-
-                        <StatCard
-                            value="15"
-                            label="Masukan dosen"
-                            valueClassName="text-tertiary-base"
-                        />
-
-                        <StatCard
-                            value="12"
-                            label="Sudah dikerjakan"
-                            valueClassName="text-tertiary-base"
-                        />
-
-                    </div>
-                )}
-
-                {activeTab === "sesi" && (
-                    <div className="py-16 text-center text-stone-500">
-                        Data sesi akan ditampilkan di sini.
-                    </div>
-                )}
-
-                {activeTab === "tugas" && (
-                    <div className="py-16 text-center text-stone-500">
-                        Data tugas akan ditampilkan di sini.
-                    </div>
-                )}
-
-                {activeTab === "anggota" && (
-                    <div className="py-16 text-center text-stone-500">
-                        Data anggota akan ditampilkan di sini.
-                    </div>
-                )}
-
-            </div>
-
-        </section>
+        <WorkspaceList
+            onOpenDetail={(workspaceId) => onOpenDetail(workspaceId)}
+            workspaces={workspaces}
+        />
     );
 }

@@ -7,7 +7,7 @@ export default function WorkspaceCard({
     progress,
 }) {
     return (
-        <div className="rounded-3xl border border-stone-300 bg-white p-6">
+        <div className="h-full rounded-3xl border border-stone-300 bg-white p-6">
             <div className="flex justify-between items-start">
                 <div>
                     <h3 className="font-headline text-2xl font-bold text-primary-900">

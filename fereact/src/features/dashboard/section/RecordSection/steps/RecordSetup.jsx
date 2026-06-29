@@ -6,10 +6,10 @@ export default function RecordSetup({ onNext }) {
     const [open, setOpen] = useState(false);
 
     const workspaces = [
-        "Proposal KicauKicau",
-        "Praktikum Basis Data",
-        "Riset UX Akademik",
-        "Bimbingan TA",
+        { id: "proposal-kicaukicau", title: "Proposal KicauKicau" },
+        { id: "praktikum-basis-data", title: "Praktikum Basis Data" },
+        { id: "riset-ux-akademik", title: "Riset UX Akademik" },
+        { id: "bimbingan-ta", title: "Bimbingan TA" },
     ];
 
     const [selectedWorkspace, setSelectedWorkspace] = useState(workspaces[0]);
@@ -56,7 +56,7 @@ export default function RecordSetup({ onNext }) {
                         className="flex w-full items-center justify-between rounded-2xl border border-stone-300 bg-white px-6 py-5 transition hover:border-primary-base"
                     >
                         <span className="font-semibold text-primary-900">
-                            {selectedWorkspace}
+                            {selectedWorkspace.title}
                         </span>
 
                         <ChevronDown
@@ -70,19 +70,19 @@ export default function RecordSetup({ onNext }) {
 
                             {workspaces.map((workspace) => (
                                 <button
-                                    key={workspace}
+                                    key={workspace.id}
                                     onClick={() => {
                                         setSelectedWorkspace(workspace);
                                         setOpen(false);
                                     }}
                                     className={`block w-full px-6 py-4 text-left transition
                                         ${
-                                            selectedWorkspace === workspace
+                                            selectedWorkspace.id === workspace.id
                                                 ? "bg-secondary-base font-semibold text-primary-base"
                                                 : "hover:bg-stone-100"
                                         }`}
                                 >
-                                    {workspace}
+                                    {workspace.title}
                                 </button>
                             ))}
 
@@ -111,7 +111,7 @@ export default function RecordSetup({ onNext }) {
 
                     <Button
                         className="mt-8"
-                        onClick={onNext}
+                        onClick={() => onNext(selectedWorkspace)}
                         variant="dash"
                     >
                         Mulai Rekam

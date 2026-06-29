@@ -10,14 +10,42 @@ import ProfileSection from "../section/ProfileSection";
 
 export default function MainPage() {
     const [activeMenu, setActiveMenu] = useState("dashboard");
+    const [workspaceView, setWorkspaceView] = useState({
+        mode: "list",
+        selectedWorkspaceId: null,
+        latestSession: null,
+    });
+
+    const openWorkspaceDetail = (workspaceId, latestSession = null) => {
+        setWorkspaceView({
+            mode: "detail",
+            selectedWorkspaceId: workspaceId,
+            latestSession,
+        });
+        setActiveMenu("workspace");
+    };
+
+    const openWorkspaceList = () => {
+        setWorkspaceView({
+            mode: "list",
+            selectedWorkspaceId: null,
+            latestSession: null,
+        });
+    };
 
     const renderContent = () => {
         switch (activeMenu) {
         case "workspace":
-            return <WorkspaceSection />;
+            return (
+                <WorkspaceSection
+                    view={workspaceView}
+                    onOpenDetail={openWorkspaceDetail}
+                    onBackToList={openWorkspaceList}
+                />
+            );
 
         case "record":
-            return <RecordSection />;
+            return <RecordSection onFinish={openWorkspaceDetail} />;
 
         case "history":
             return <HistorySection />;
@@ -34,7 +62,15 @@ export default function MainPage() {
         <div className="flex min-h-screen bg-secondary-base">
         <Sidebar
             activeMenu={activeMenu}
-            setActiveMenu={setActiveMenu}
+            setActiveMenu={(menu) => {
+                if (menu === "workspace") {
+                    openWorkspaceList();
+                    setActiveMenu("workspace");
+                    return;
+                }
+
+                setActiveMenu(menu);
+            }}
         />
 
         <main className="flex-1 overflow-y-auto p-10">

@@ -1,9 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Button({ 
   children,
   variant = "solid",
   type = "button",
+  to,
   className = "",
   textClass = "",
   bgClass = "",
@@ -15,21 +17,38 @@ export default function Button({
   const variants = {
     solid: "text-white bg-neutral-base hover:bg-neutral-300 hover:text-primary-900 drop-shadow-[5px_5px_2px_var(--color-primary-600)]",
     navbar: "text-primary-900 bg-neutral-300 hover:bg-neutral-base hover:text-white drop-shadow-[5px_5px_2px_var(--color-primary-600)]",
-    outline: "text-primary-900 hover:bg-secondary-base border border-primary-900",
+    outline: "text-primary-900 hover:bg-neutral-base hover:text-white hover:border-white/20 border border-primary-900",
     dash: "text-white bg-tertiary-base hover:bg-tertiary-200 hover:text-primary-900 drop-shadow-[5px_5px_2px_var(--color-primary-600)]",
     danger: "text-red-500 border-red-500/20 hover:bg-red-500/10 hover:border-red-500 bg-black/10 border"
   };
 
+  const classNames = `${baseStyle} ${variants[variant]} ${bgClass} ${className}`;
+  const content = (
+    <span className={`relative z-10 flex items-center gap-2 ${textClass}`}>
+      {children}
+    </span>
+  );
+
+  if (to) {
+    return (
+      <Link
+        to={to}
+        className={classNames}
+        {...props}
+      >
+        {content}
+      </Link>
+    );
+  }
+
   return (
     <button
       type={type}
-      className={`${baseStyle} ${variants[variant]} ${bgClass} ${className}`}
+      className={classNames}
       {...props}
     >
       {/* Konten di dalam tombol */}
-      <span className={`relative z-10 flex items-center gap-2 ${textClass}`}>
-        {children}
-      </span>
+      {content}
     </button>
   );
 }

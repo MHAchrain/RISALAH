@@ -112,7 +112,7 @@ export default function Navbar() {
             <div className="justify-self-end">
                 {!isLoggedIn ? (
                 <Button
-                    onClick={() => setIsLoggedIn(true)}
+                    to="/auth"
                     variant={isDarkSection ? "navbar" : "solid"}
                 >
                     Mulai Draft
